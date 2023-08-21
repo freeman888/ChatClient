@@ -11,7 +11,7 @@ using Microsoft.Maui.Controls;
 
 namespace ChatClient.Models;
 
-public record Message(string SendUser, string ReceiveUser, string Content, DateTime SendTime, int MessageID);
+public record Message(string SendUser, string ReceiveUser, string Content, DateTime SendTime, int MessageID, byte[] Img);
 [QueryProperty(nameof(TargetUserName),"targetusername")]
 public partial class ChatModel : ObservableObject
 {
@@ -79,7 +79,7 @@ public partial class ChatModel : ObservableObject
         var res = await clientUtils.GetImage();
         if (res.Item1)
         {
-            
+            _ = await signalRUtils.TrySendImage(userInfoModel.UserName, TargetUserName, res.Item2);
         }
     }
 

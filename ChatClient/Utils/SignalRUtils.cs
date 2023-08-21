@@ -87,8 +87,17 @@ public class SignalRUtils
     public async Task<bool> TrySendMessage(string username,string targetusername,string content)
     {
         Debug.Assert(State == HubConnectionState.Connected);
-        var res =  await hubConnection.InvokeAsync<bool>("ServerSendMessage", username, targetusername, content);
+        var res =  await hubConnection.InvokeAsync<bool>("ServerSendMessage", username, targetusername, content,null);
         return res; 
+    }
+    public async Task<bool> TrySendImage(string username, string targetusername, Stream imgstream)
+    {
+        Debug.Assert(State == HubConnectionState.Connected);
+        using var ms = new MemoryStream();
+        imgstream.CopyTo(ms);
+        byte[] arg4 = ms.ToArray();
+        var res = await hubConnection.InvokeAsync<bool>("ServerSendMessage", username, targetusername, "", arg4);
+        return res;
     }
     public HubConnectionState State => hubConnection.State;
 }

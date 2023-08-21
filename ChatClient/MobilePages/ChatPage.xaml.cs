@@ -51,6 +51,7 @@ public partial class ChatPage : ContentPage
                     case "从相册选取":
                         FileResult photofile1 = await MediaPicker.Default.PickPhotoAsync();
                         stream = await photofile1.OpenReadAsync();
+                        
                         break;
                     case "从文件选取":
                         try

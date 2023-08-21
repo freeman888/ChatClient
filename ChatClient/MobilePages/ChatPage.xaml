@@ -5,6 +5,7 @@
              xmlns:models="clr-namespace:ChatClient.Models"
              xmlns:conv="clr-namespace:ValueConverters;assembly=ValueConverters"
              xmlns:convs="clr-namespace:ChatClient.Converters"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:DataType="models:ChatModel"
              Loaded="ContentPage_Loaded"
              Title="{Binding TargetUserName}"
@@ -16,6 +17,10 @@
         <convs:AllTrueMultiConverter x:Key="AllTrueConverter"/>
         <conv:InverseBoolConverter x:Key="InBookConverter"/>
         <conv:BoolToDoubleConverter x:Key="BoolToTransY" TrueValue="{OnPlatform Default=0,iOS=-270,Android=0,WinUI=0,MacCatalyst=0}" FalseValue="0"/>
+        <toolkit:IsNotNullConverter x:Key="NotNullToBool"/>
+        <toolkit:IsNullConverter x:Key="NullToBool"/>
+        <toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+        
     </ContentPage.Resources>
     <Grid RowDefinitions="1*,auto" TranslationY="{Binding Source={x:Reference editor}, Path=IsFocused,Converter={StaticResource BoolToTransY}} ">
         <Grid Margin="10">
@@ -27,7 +32,8 @@
                                 <Label Text="{Binding SendUser}" HorizontalOptions="Start" FontSize="Small"/>
                                 <Label Text="{Binding SendTime,StringFormat='{0:yyyy-MM-dd HH:mm:ss}'}" HorizontalOptions="End" FontSize="Small"/>
                             </Grid>
-                            <Label Text="{Binding Content}" FontSize="Large"/>
+                            <Label Text="{Binding Content}" IsVisible="{Binding Img,Converter={StaticResource NullToBool}}" FontSize="Large"/>
+                            <Image HorizontalOptions="Start" HeightRequest="180" Margin="10" Source="{Binding Img,Mode=OneWay,Converter={StaticResource ByteArrayToImageSourceConverter}}" IsVisible="{Binding Img,Converter={StaticResource NotNullToBool}}"/>
                         </VerticalStackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
