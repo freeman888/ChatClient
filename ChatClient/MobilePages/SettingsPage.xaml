@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ChatClient.MobilePages.SettingsPage"
+             xmlns:models="clr-namespace:ChatClient.Models"
+             Title="设置"
+             x:DataType="models:SettingsModel">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="1*"/>
+
+        </Grid.RowDefinitions>
+        <VerticalStackLayout BackgroundColor="{AppThemeBinding Dark={StaticResource Gray900}, Light=AliceBlue}" VerticalOptions="Start" Padding="50">
+            <Label Text="{Binding UserInfoModel.UserName}" FontSize="32" FontAttributes="Bold"/>
+            <Label Text="{Binding UserInfoModel.Motto, StringFormat='个性签名: {0}'}" FontSize="Medium"/>
+        </VerticalStackLayout>
+        <ScrollView Margin="0,20,0,0" Grid.Row="1" VerticalOptions="Start">
+            <VerticalStackLayout Padding="10" BackgroundColor="{AppThemeBinding Light=AliceBlue, Dark={StaticResource Gray900}}" HorizontalOptions="Fill">
+                <Label Margin="5" Text="用户设置"/>
+                <Line HeightRequest="1" HorizontalOptions="Fill" BackgroundColor="Black"/>
+                <Grid ColumnDefinitions="3*,7*">
+                    <Label VerticalOptions="Center" Padding="16" Text="用户名" FontSize="18"/>
+                    <Entry Text="{Binding UserInfoModel.UserName}" FontSize="Medium" Grid.Column="1" VerticalTextAlignment="Center" VerticalOptions="Fill" Margin="0,2,10,2"/>
+                </Grid>
+                <Grid ColumnDefinitions="3*,7*">
+                    <Label VerticalOptions="Center" Padding="16" Text="密码" FontSize="18"/>
+                    <Entry Text="{Binding UserInfoModel.Password}" FontSize="Medium" Grid.Column="1" IsPassword="True" VerticalTextAlignment="Center" VerticalOptions="Fill" Margin="0,0,10,0"/>
+                </Grid>
+                <Grid ColumnDefinitions="3*,7*">
+                    <Label VerticalOptions="Center" Padding="16" Text="个性签名" FontSize="18"/>
+                    <Entry Text="{Binding UserInfoModel.Motto}" FontSize="Medium" Grid.Column="1" VerticalTextAlignment="Center" VerticalOptions="Fill" Margin="0,2,10,2"/>
+                </Grid>
+                <Label Margin="5,20,5,5" Text="系统设置"/>
+                <Line HeightRequest="1" HorizontalOptions="Fill" BackgroundColor="Black"/>
+                <Grid ColumnDefinitions="3*,7*">
+                    <Label VerticalOptions="Center" Padding="16" Text="标题栏颜色" FontSize="18"/>
+                    <Entry Text="Purple" FontSize="Medium" Grid.Column="1" VerticalTextAlignment="Center" VerticalOptions="Fill" Margin="0,2,10,2"/>
+                </Grid>
+                <Grid ColumnDefinitions="3*,7*">
+                    <Label VerticalOptions="Center" Padding="16" Text="字体大小" FontSize="18"/>
+                    <Slider Margin="60,0,40,0" Grid.Column="1" Minimum="14" Maximum="28" />
+                    <Label Grid.Column="1" Text="14sp" VerticalOptions="Center"/>
+                </Grid>
+                <Grid ColumnDefinitions="3*,7*">
+                    <Label VerticalOptions="Center" Padding="16" Text="暗色主题" FontSize="18"/>
+                    <Switch IsToggled="{Binding DarkTheme}" Grid.Column="1" HorizontalOptions="End" VerticalOptions="Fill" Margin="0,2,10,2"/>
+                </Grid>
+                <Button Text="退出登录" Command="{Binding LogoutCommand}" Margin="0,20,0,0"/>
+            </VerticalStackLayout>
+
+        </ScrollView>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ChatClient.MobilePages.ChatPage"
+             xmlns:models="clr-namespace:ChatClient.Models"
+             xmlns:conv="clr-namespace:ValueConverters;assembly=ValueConverters"
+             xmlns:convs="clr-namespace:ChatClient.Converters"
+             x:DataType="models:ChatModel"
+             Loaded="ContentPage_Loaded"
+             Title="{Binding TargetUserName}"
+             >
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IconOverride="arrow_left.png"/>
+    </Shell.BackButtonBehavior>
+    <ContentPage.Resources>
+        <convs:AllTrueMultiConverter x:Key="AllTrueConverter"/>
+        <conv:InverseBoolConverter x:Key="InBookConverter"/>
+        <conv:BoolToDoubleConverter x:Key="BoolToTransY" TrueValue="{OnPlatform Default=0,iOS=-270,Android=0,WinUI=0,MacCatalyst=0}" FalseValue="0"/>
+    </ContentPage.Resources>
+    <Grid RowDefinitions="1*,auto" TranslationY="{Binding Source={x:Reference editor}, Path=IsFocused,Converter={StaticResource BoolToTransY}} ">
+        <Grid Margin="10">
+            <CollectionView Scrolled="ContentCV_Scrolled" x:Name="ContentCV" ItemsSource="{Binding Messages}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Message">
+                        <VerticalStackLayout Margin="5">
+                            <Grid>
+                                <Label Text="{Binding SendUser}" HorizontalOptions="Start" FontSize="Small"/>
+                                <Label Text="{Binding SendTime,StringFormat='{0:yyyy-MM-dd HH:mm:ss}'}" HorizontalOptions="End" FontSize="Small"/>
+                            </Grid>
+                            <Label Text="{Binding Content}" FontSize="Large"/>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid HeightRequest="1" BackgroundColor="Black" VerticalOptions="Start"/>
+            <VerticalStackLayout>
+                <Grid>
+                    <Entry ReturnType="Send" ReturnCommand="{Binding SendMessageFromKeyboardCommand}" Keyboard="Chat" Focused="editor_Focused" x:Name="editor" Text="{Binding Message}" FontSize="Medium" HorizontalOptions="FillAndExpand" VerticalOptions="Fill"
+                           Margin="10,10,90,10">
+                        
+                    </Entry>
+                    <ImageButton  Padding="5" Source="send.png"  Command="{Binding SendMessageCommand}" HorizontalOptions="End" WidthRequest="40" HeightRequest="40"/>
+                    <ImageButton Padding="5" Source="picture.png" Command="{Binding SendImageCommand}" HorizontalOptions="End" Margin="0,0,40,0" WidthRequest="40" HeightRequest="40"/>
+                </Grid>
+            </VerticalStackLayout>
+            
+        </Grid>
+    </Grid>
+
+</ContentPage>
